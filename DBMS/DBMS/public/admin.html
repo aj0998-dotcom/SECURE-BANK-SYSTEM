@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBank — Executive Admin Console</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🛡️</div>
+        <div><h2>SecureBank</h2></div>
+        <span class="version-tag" style="background: rgba(139, 92, 246, 0.2); color: var(--accent-violet);">Admin</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-title">Administration</div>
+        <a href="/admin.html" class="active"><span class="nav-icon">🛡️</span> Executive Console</a>
+        <a href="/dashboard.html"><span class="nav-icon">👤</span> Switch to Customer View</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="user-avatar" style="background: var(--gradient-rose);">AD</div>
+          <div class="user-details">
+            <div class="user-name" id="user-name">System Administrator</div>
+            <div class="user-role" id="user-email" style="color: var(--accent-rose);">admin@securebank.com</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm btn-block" onclick="logout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>🛡️ Executive Admin & System Intelligence</h1>
+          <div class="subtitle">Module 5: Global platform metrics, ACID concurrency logs & audit controls</div>
+        </div>
+      </div>
+
+      <!-- Advanced SQL Module 5 Showcase Bar -->
+      <div class="sql-modules-bar">
+        <div class="sql-modules-title">
+          <span class="badge-icon" style="background: var(--gradient-rose);">ADVANCED SQL M5</span>
+          <span>Executive Intelligence & Concurrency</span>
+        </div>
+        <div class="sql-tags">
+          <span class="sql-tag">🔒 ROW EXCLUSIVE LOCK (FOR UPDATE)</span>
+          <span class="sql-tag">👁️ VIEW vw_customer_financial_profile</span>
+          <span class="sql-tag">📋 Customer Status Audit Table</span>
+        </div>
+      </div>
+
+      <!-- Admin Aggregate Stats Grid -->
+      <div class="stats-grid" id="admin-stats"></div>
+
+      <!-- Admin Operations Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="customers">👥 All Registered Customers</button>
+        <button class="tab-btn" data-tab="accounts">💳 All System Accounts</button>
+        <button class="tab-btn" data-tab="transactions">💸 Global Transaction Audit Log</button>
+      </div>
+
+      <!-- Customers Tab -->
+      <div class="tab-content active" id="tab-customers">
+        <div class="card">
+          <div class="card-header">
+            <h3>👥 Customer Directory & Financial Profiles</h3>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Customer Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Type</th>
+                  <th>Accounts</th>
+                  <th>Total Balance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="cust-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accounts Tab -->
+      <div class="tab-content" id="tab-accounts">
+        <div class="card">
+          <div class="card-header">
+            <h3>💳 Bank Accounts Registry</h3>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Account Number</th>
+                  <th>Customer Name</th>
+                  <th>Type</th>
+                  <th>Balance</th>
+                  <th>Branch Code</th>
+                  <th>Opening Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="acc-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions Tab -->
+      <div class="tab-content" id="tab-transactions">
+        <div class="card">
+          <div class="card-header">
+            <h3>💸 Platform Global Transaction Audit Trail</h3>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Txn ID</th>
+                  <th>Customer</th>
+                  <th>Account Number</th>
+                  <th>Type</th>
+                  <th>Reference No.</th>
+                  <th>Amount</th>
+                  <th>Balance After</th>
+                  <th>Date & Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="txn-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

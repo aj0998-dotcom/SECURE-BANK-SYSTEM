@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBank — Loan Tracker & Stored Analytics</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🏦</div>
+        <div><h2>SecureBank</h2></div>
+        <span class="version-tag">SQL v2.4</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-title">Navigation</div>
+        <a href="/dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="/accounts.html"><span class="nav-icon">💳</span> Bank Accounts</a>
+        <a href="/transactions.html"><span class="nav-icon">💸</span> Fund Transfers</a>
+        <a href="/loans.html" class="active"><span class="nav-icon">🏠</span> Loans & EMI</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="user-avatar">RK</div>
+          <div class="user-details">
+            <div class="user-name" id="user-name">Rajesh Kumar</div>
+            <div class="user-role" id="user-email">rajesh.kumar@email.com</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm btn-block" onclick="logout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>🏠 Loans, EMI & Risk Classification</h1>
+          <div class="subtitle">Module 4: Stored procedures, interest calculators & loan tracking</div>
+        </div>
+      </div>
+
+      <!-- Advanced SQL Module 4 Showcase Bar -->
+      <div class="sql-modules-bar">
+        <div class="sql-modules-title">
+          <span class="badge-icon">ADVANCED SQL M4</span>
+          <span>Stored Procedures & Analytics</span>
+        </div>
+        <div class="sql-tags">
+          <span class="sql-tag">📊 PROCEDURE sp_calculate_interest_all_accounts</span>
+          <span class="sql-tag">⚠️ PROCEDURE sp_flag_high_outstanding_loans</span>
+          <span class="sql-tag">👁️ VIEW vw_loan_payment_tracker</span>
+        </div>
+      </div>
+
+      <div id="loans-container"></div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireAuth()) return;
+      const user = getUser();
+      if (user.role === 'admin') { window.location.href = '/admin.html'; return; }
+      document.getElementById('sidebar-toggle').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
+      const name = user.customer ? `${user.customer.first_name} ${user.customer.last_name}` : user.email;
+      document.getElementById('user-avatar').textContent = name.charAt(0).toUpperCase();
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-email').textContent = user.email;
+
+      const container = document.getElementById('loans-container');
+      try {
+        const data = await apiRequest(`/loans/${user.customerId}`);
+        if (!data.loans || data.loans.length === 0) {
+          container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏠</div><h3>No Active Loans</h3><p>You have no current loan applications or active credit lines.</p></div>';
+          return;
+        }
+        container.innerHTML = data.loans.map(l => {
+          const totalAmt = parseFloat(l.loan_amount);
+          const outAmt = parseFloat(l.outstanding_amount || 0);
+          const paidPercent = totalAmt > 0 ? (((totalAmt - outAmt) / totalAmt) * 100).toFixed(1) : '0.0';
+          const colors = { Home: 'var(--accent-blue)', Personal: 'var(--accent-violet)', Vehicle: 'var(--accent-amber)', Education: 'var(--accent-emerald)', Business: 'var(--accent-cyan)' };
+          const color = colors[l.loan_type] || 'var(--accent-blue)';
+          
+          return `<div class="card mb-3 animate-fade">
+            <div class="card-header" style="border:none;margin:0;padding-bottom:0.5rem;">
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <div style="font-size:1.8rem;">🏠</div>
+                <div>
+                  <h3 style="margin:0;">${l.loan_type} Loan</h3>
+                  <div style="font-size:0.75rem;color:var(--text-muted);">Loan ID #${l.loan_id}</div>
+                </div>
+              </div>
+              ${getStatusBadge(l.status)}
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin:1.25rem 0;padding:1rem;background:var(--bg-glass);border-radius:var(--radius-md);">
+              <div><div class="text-muted" style="font-size:0.75rem;">Total Loan Value</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';">${formatCurrency(l.loan_amount)}</div></div>
+              <div><div class="text-muted" style="font-size:0.75rem;">Outstanding Balance</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';color:${color}">${formatCurrency(l.outstanding_amount)}</div></div>
+              <div><div class="text-muted" style="font-size:0.75rem;">Monthly EMI</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';">${formatCurrency(l.monthly_emi)}</div></div>
+              <div><div class="text-muted" style="font-size:0.75rem;">Interest Rate</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';">${l.interest_rate}% p.a.</div></div>
+              <div><div class="text-muted" style="font-size:0.75rem;">Tenure</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';">${l.tenure_months} Months</div></div>
+              <div><div class="text-muted" style="font-size:0.75rem;">Repayment Progress</div><div style="font-weight:800;font-size:1.15rem;font-family:'Outfit';color:var(--accent-emerald);">${paidPercent}% Paid</div></div>
+            </div>
+
+            <div style="background:var(--bg-input);border-radius:999px;height:10px;overflow:hidden;margin-bottom:0.75rem;">
+              <div style="width:${paidPercent}%;height:100%;background:${color};border-radius:999px;transition:width 1s ease;"></div>
+            </div>
+
+            <div class="flex-between text-muted" style="font-size:0.75rem;">
+              <span>Applied: ${formatDate(l.application_date)} | Approved: ${formatDate(l.approval_date)}</span>
+              <span>Disbursed: ${formatDate(l.disbursement_date)}</span>
+            </div>
+          </div>`;
+        }).join('');
+      } catch (err) {
+        container.innerHTML = `<div class="alert alert-error">❌ ${err.error || 'Failed to load loans'}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

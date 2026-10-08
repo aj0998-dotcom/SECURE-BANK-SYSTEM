@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBank — Account Management & Cards</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🏦</div>
+        <div><h2>SecureBank</h2></div>
+        <span class="version-tag">SQL v2.4</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-title">Navigation</div>
+        <a href="/dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="/accounts.html" class="active"><span class="nav-icon">💳</span> Bank Accounts</a>
+        <a href="/transactions.html"><span class="nav-icon">💸</span> Fund Transfers</a>
+        <a href="/loans.html"><span class="nav-icon">🏠</span> Loans & EMI</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="user-avatar">RK</div>
+          <div class="user-details">
+            <div class="user-name" id="user-name">Rajesh Kumar</div>
+            <div class="user-role" id="user-email">rajesh.kumar@email.com</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm btn-block" onclick="logout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>💳 Bank Accounts & Linked Debit Cards</h1>
+          <div class="subtitle">Module 2: Manage Savings, Current & Fixed Deposit accounts</div>
+        </div>
+        <button class="btn btn-primary" id="btn-new-account">+ Open New Account</button>
+      </div>
+
+      <!-- Advanced SQL Module 2 Showcase -->
+      <div class="sql-modules-bar">
+        <div class="sql-modules-title">
+          <span class="badge-icon">ADVANCED SQL M2</span>
+          <span>Account Engine & Data Integrity</span>
+        </div>
+        <div class="sql-tags">
+          <span class="sql-tag">🛡️ CONSTRAINT chk_balance (balance >= 0)</span>
+          <span class="sql-tag">🔑 UNIQUE account_number (16 Digits)</span>
+          <span class="sql-tag">🏛️ DEFAULT branch_code ('CHN001')</span>
+        </div>
+      </div>
+
+      <div id="accounts-container" class="accounts-grid"></div>
+    </main>
+  </div>
+
+  <!-- Create Account Modal Dialog -->
+  <div class="modal-overlay hidden" id="modal-overlay">
+    <div class="modal">
+      <h3>✨ Open a New Bank Account</h3>
+      <div id="modal-alert"></div>
+      <form id="create-account-form">
+        <div class="form-group">
+          <label for="acc-type">Account Type</label>
+          <select id="acc-type" required>
+            <option value="Savings">Savings Account (4.00% p.a. Interest)</option>
+            <option value="Current">Current Account (0.00% p.a., Business)</option>
+            <option value="Fixed Deposit">Fixed Deposit (6.50% p.a. High Yield)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="acc-branch">Branch Code</label>
+          <input type="text" id="acc-branch" value="CHN001" required placeholder="CHN001">
+        </div>
+        <div class="form-group">
+          <label for="acc-deposit">Initial Deposit Amount (₹)</label>
+          <input type="number" id="acc-deposit" min="0" step="100" value="1000" placeholder="1000">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="modal-cancel">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm & Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/accounts.js"></script>
+</body>
+</html>

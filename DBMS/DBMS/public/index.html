@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SecureBank — Advanced DBMS Banking & Analytics System">
+  <title>SecureBank — Advanced SQL Banking System</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body style="background: var(--bg-primary);">
+  <div class="login-container" style="display: flex; min-height: 100vh;">
+    
+    <!-- High-Tech Branding Panel -->
+    <div class="login-branding" style="flex: 1.1; background: linear-gradient(135deg, #0d172a 0%, #070d19 100%); padding: 3.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; border-right: 1px solid var(--border-color);">
+      <div style="display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem;">
+        <div style="width: 50px; height: 50px; border-radius: 14px; background: var(--gradient-blue); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: var(--shadow-glow-blue);">🏦</div>
+        <div>
+          <h1 style="font-size: 2.2rem; font-weight: 800; background: var(--gradient-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SecureBank</h1>
+          <span style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Advanced SQL Architecture Engine</span>
+        </div>
+      </div>
+      
+      <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2.5rem; max-width: 480px;">
+        Enterprise-grade digital banking management platform powered by high-concurrency SQL isolation, real-time triggers, and stored analytical procedures.
+      </p>
+
+      <!-- 5 Advanced SQL Project Review Modules -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.5rem; backdrop-filter: blur(16px); max-width: 500px;">
+        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-blue); margin-bottom: 1rem; font-weight: 700;">
+          ⚡ 5 Implemented Advanced SQL Project Modules
+        </h4>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-primary);">
+            <span style="background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">1</span>
+            <span><strong>Auth & Audit Logging Engine</strong>: JWT Security + `trg_log_customer_status_change`</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-primary);">
+            <span style="background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">2</span>
+            <span><strong>Account Engine & Card Management</strong>: `chk_balance >= 0` + Instant Card Specs</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-primary);">
+            <span style="background: rgba(139, 92, 246, 0.2); color: var(--accent-violet); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">3</span>
+            <span><strong>Atomic Transactions & Triggers</strong>: `trg_check_minimum_balance` + Fund Transfers</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-primary);">
+            <span style="background: rgba(245, 158, 11, 0.2); color: var(--accent-amber); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">4</span>
+            <span><strong>Loan & Stored Procedures Engine</strong>: `sp_calculate_interest_all_accounts` + `sp_flag_high_outstanding_loans`</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; color: var(--text-primary);">
+            <span style="background: rgba(244, 63, 94, 0.2); color: var(--accent-rose); width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem;">5</span>
+            <span><strong>Executive Admin & ACID Isolation</strong>: Row Locks `FOR UPDATE` + `vw_customer_financial_profile`</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Form Section -->
+    <div class="login-form-section" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 3rem;">
+      <div class="login-form-wrapper" style="width: 100%; max-width: 440px;">
+        
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.25rem;">Sign In</h2>
+        <p class="subtitle" style="margin-bottom: 1.5rem; color: var(--text-secondary);">Access your secure digital banking portal</p>
+
+        <!-- Role Toggle Switch -->
+        <div class="role-toggle" id="role-toggle">
+          <button class="active" data-role="customer" id="btn-role-customer">👤 Customer Portal</button>
+          <button data-role="admin" id="btn-role-admin">🛡️ Executive Admin</button>
+        </div>
+
+        <!-- Quick Demo Account Fillers -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+          <button type="button" class="btn btn-outline btn-sm" style="flex: 1; font-size: 0.75rem; padding: 0.4rem;" onclick="fillDemoCustomer()">
+            ⚡ Fill Demo Customer
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" style="flex: 1; font-size: 0.75rem; padding: 0.4rem; border-color: var(--accent-violet); color: var(--accent-violet);" onclick="fillDemoAdmin()">
+            🛡️ Fill Demo Admin
+          </button>
+        </div>
+
+        <div id="alert-box"></div>
+
+        <!-- Login Form -->
+        <form id="login-form" autocomplete="off">
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" placeholder="you@example.com" required value="rajesh.kumar@email.com">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="Enter your password" required value="password123">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="login-btn" style="padding: 0.9rem; font-size: 1rem;">
+            Sign In to Dashboard
+          </button>
+        </form>
+
+        <p class="mt-2 text-muted" style="text-align: center; font-size: 0.875rem; margin-top: 1.5rem;">
+          Need a new bank account? <a href="#" id="show-register" style="font-weight: 700;">Register Customer Account</a>
+        </p>
+
+        <!-- Registration Modal / Form -->
+        <div id="register-section" class="hidden" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.25rem;">New Customer KYC Registration</h3>
+          <p class="subtitle" style="margin-bottom: 1.25rem;">Fill required KYC fields to create account</p>
+          <div id="reg-alert-box"></div>
+          <form id="register-form" autocomplete="off">
+            <div class="form-row">
+              <div class="form-group"><label for="reg-fname">First Name</label><input type="text" id="reg-fname" required placeholder="John"></div>
+              <div class="form-group"><label for="reg-lname">Last Name</label><input type="text" id="reg-lname" required placeholder="Doe"></div>
+            </div>
+            <div class="form-group"><label for="reg-dob">Date of Birth</label><input type="date" id="reg-dob" required></div>
+            <div class="form-group"><label for="reg-email">Email</label><input type="email" id="reg-email" required placeholder="john.doe@email.com"></div>
+            <div class="form-group"><label for="reg-phone">Phone</label><input type="tel" id="reg-phone" required placeholder="9876543210"></div>
+            <div class="form-group"><label for="reg-address">Address</label><input type="text" id="reg-address" placeholder="123 Street, City"></div>
+            <div class="form-row">
+              <div class="form-group"><label for="reg-pan">PAN Number</label><input type="text" id="reg-pan" maxlength="10" required placeholder="ABCDE1234F"></div>
+              <div class="form-group"><label for="reg-aadhar">Aadhar Number</label><input type="text" id="reg-aadhar" maxlength="12" required placeholder="123456789012"></div>
+            </div>
+            <div class="form-group"><label for="reg-password">Password</label><input type="password" id="reg-password" minlength="6" required placeholder="••••••••"></div>
+            <button type="submit" class="btn btn-success btn-block" id="reg-btn" style="padding: 0.85rem;">Submit Registration</button>
+          </form>
+          <p class="mt-2 text-muted" style="text-align: center; font-size: 0.875rem; margin-top: 1rem;">
+            Already have an account? <a href="#" id="show-login" style="font-weight: 700;">Back to Sign In</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/login.js"></script>
+  <script>
+    function fillDemoCustomer() {
+      document.getElementById('btn-role-customer').click();
+      document.getElementById('login-email').value = 'rajesh.kumar@email.com';
+      document.getElementById('login-password').value = 'password123';
+    }
+    function fillDemoAdmin() {
+      document.getElementById('btn-role-admin').click();
+      document.getElementById('login-email').value = 'admin@securebank.com';
+      document.getElementById('login-password').value = 'admin123';
+    }
+  </script>
+</body>
+</html>

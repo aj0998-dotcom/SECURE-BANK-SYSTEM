@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBank — Customer Command Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🏦</div>
+        <div>
+          <h2>SecureBank</h2>
+        </div>
+        <span class="version-tag">SQL v2.4</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-title">Navigation</div>
+        <a href="/dashboard.html" class="active"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="/accounts.html"><span class="nav-icon">💳</span> Bank Accounts</a>
+        <a href="/transactions.html"><span class="nav-icon">💸</span> Fund Transfers</a>
+        <a href="/loans.html"><span class="nav-icon">🏠</span> Loans & EMI</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="user-avatar">RK</div>
+          <div class="user-details">
+            <div class="user-name" id="user-name">Rajesh Kumar</div>
+            <div class="user-role" id="user-email">rajesh.kumar@email.com</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm btn-block" onclick="logout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 id="welcome-msg">Welcome Back, Rajesh!</h1>
+          <div class="subtitle">Real-time account balance & transactional overview</div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+          <a href="/transactions.html" class="btn btn-primary btn-sm">⚡ Quick Transfer</a>
+          <span class="badge badge-active" id="date-display">Live Session</span>
+        </div>
+      </div>
+
+      <!-- Advanced SQL Project Review Modules Showcase -->
+      <div class="sql-modules-bar">
+        <div class="sql-modules-title">
+          <span class="badge-icon">ADVANCED SQL</span>
+          <span>5 Core Implemented Project Modules</span>
+        </div>
+        <div class="sql-tags">
+          <span class="sql-tag">🔒 M1: Auth & Status Audit Trigger</span>
+          <span class="sql-tag">💳 M2: Account Check Constraint</span>
+          <span class="sql-tag">⚡ M3: Min Balance Guard Trigger</span>
+          <span class="sql-tag">📊 M4: Interest & Loan Risk Procedures</span>
+          <span class="sql-tag">🛡️ M5: Concurrency Lock `FOR UPDATE`</span>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card blue">
+          <div class="stat-icon-wrapper">
+            <span class="stat-label">Total Liquid Balance</span>
+            <div class="stat-icon">💰</div>
+          </div>
+          <div class="stat-value" id="stat-balance">₹0.00</div>
+          <span style="font-size: 0.75rem; color: var(--accent-emerald);">● All Accounts Active</span>
+        </div>
+        <div class="stat-card emerald">
+          <div class="stat-icon-wrapper">
+            <span class="stat-label">Active Bank Accounts</span>
+            <div class="stat-icon">💳</div>
+          </div>
+          <div class="stat-value" id="stat-accounts">0</div>
+          <span style="font-size: 0.75rem; color: var(--text-muted);">Savings, Current, FD</span>
+        </div>
+        <div class="stat-card amber">
+          <div class="stat-icon-wrapper">
+            <span class="stat-label">Active Loans & Debt</span>
+            <div class="stat-icon">🏠</div>
+          </div>
+          <div class="stat-value" id="stat-loans">₹0.00</div>
+          <span style="font-size: 0.75rem; color: var(--accent-amber);">Monthly EMI Tracking</span>
+        </div>
+      </div>
+
+      <!-- Recent Transactions Card -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <h3>📋 Recent Account Transactions</h3>
+          <a href="/transactions.html" class="btn btn-outline btn-sm">View Full History</a>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Reference No.</th>
+                <th>Amount</th>
+                <th>Balance After</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="txn-tbody">
+              <tr><td colspan="7" class="text-muted" style="text-align:center;padding:2rem;">Loading transactions...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Accounts Preview Card Grid -->
+      <div class="card">
+        <div class="card-header">
+          <h3>💳 Your Bank Accounts & Linked Cards</h3>
+          <a href="/accounts.html" class="btn btn-primary btn-sm">+ Open New Account</a>
+        </div>
+        <div id="accounts-preview" class="accounts-grid"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

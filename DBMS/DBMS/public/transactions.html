@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureBank — Financial Operations & Transfers</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">🏦</div>
+        <div><h2>SecureBank</h2></div>
+        <span class="version-tag">SQL v2.4</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-title">Navigation</div>
+        <a href="/dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+        <a href="/accounts.html"><span class="nav-icon">💳</span> Bank Accounts</a>
+        <a href="/transactions.html" class="active"><span class="nav-icon">💸</span> Fund Transfers</a>
+        <a href="/loans.html"><span class="nav-icon">🏠</span> Loans & EMI</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile-card">
+          <div class="user-avatar" id="user-avatar">RK</div>
+          <div class="user-details">
+            <div class="user-name" id="user-name">Rajesh Kumar</div>
+            <div class="user-role" id="user-email">rajesh.kumar@email.com</div>
+          </div>
+        </div>
+        <button class="btn btn-outline btn-sm btn-block" onclick="logout()">🚪 Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>💸 Financial Operations & Fund Transfers</h1>
+          <div class="subtitle">Module 3: Atomic transactions guarded by Database Triggers</div>
+        </div>
+      </div>
+
+      <!-- Advanced SQL Module 3 Showcase Bar -->
+      <div class="sql-modules-bar">
+        <div class="sql-modules-title">
+          <span class="badge-icon">ADVANCED SQL M3</span>
+          <span>Atomic Transactions & Triggers</span>
+        </div>
+        <div class="sql-tags">
+          <span class="sql-tag">⚡ TRIGGER trg_update_balance_after_txn</span>
+          <span class="sql-tag">🛡️ TRIGGER trg_check_minimum_balance (SQLSTATE 45000)</span>
+          <span class="sql-tag">🔄 START TRANSACTION / COMMIT / ROLLBACK</span>
+        </div>
+      </div>
+
+      <!-- Operations Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="deposit">💰 Cash Deposit</button>
+        <button class="tab-btn" data-tab="withdraw">🏧 ATM Withdrawal</button>
+        <button class="tab-btn" data-tab="transfer">🔄 Instant Transfer (IMPS/NEFT/RTGS)</button>
+        <button class="tab-btn" data-tab="history">📋 Transaction History</button>
+      </div>
+
+      <!-- Deposit Tab -->
+      <div class="tab-content active" id="tab-deposit">
+        <div class="card" style="max-width: 520px;">
+          <div class="card-header">
+            <h3>💰 Execute Cash Deposit</h3>
+            <span class="badge badge-deposit">Instant Credit</span>
+          </div>
+          <div id="deposit-alert"></div>
+          <form id="deposit-form">
+            <div class="form-group">
+              <label for="dep-account">Target Account</label>
+              <select id="dep-account" required></select>
+            </div>
+            <div class="form-group">
+              <label for="dep-amount">Deposit Amount (₹)</label>
+              <input type="number" id="dep-amount" min="1" step="100" required placeholder="5000">
+            </div>
+            <div class="form-group">
+              <label for="dep-desc">Transaction Remark / Description</label>
+              <input type="text" id="dep-desc" placeholder="Cash Deposit at Branch">
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Confirm Cash Deposit</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Withdraw Tab -->
+      <div class="tab-content" id="tab-withdraw">
+        <div class="card" style="max-width: 520px;">
+          <div class="card-header">
+            <h3>🏧 Execute ATM / Cash Withdrawal</h3>
+            <span class="badge badge-withdrawal">Min Bal Guarded</span>
+          </div>
+          <div id="withdraw-alert"></div>
+          <form id="withdraw-form">
+            <div class="form-group">
+              <label for="wd-account">Source Account</label>
+              <select id="wd-account" required></select>
+            </div>
+            <div class="form-group">
+              <label for="wd-amount">Withdrawal Amount (₹)</label>
+              <input type="number" id="wd-amount" min="1" step="100" required placeholder="2000">
+            </div>
+            <div class="form-group">
+              <label for="wd-desc">Description</label>
+              <input type="text" id="wd-desc" placeholder="ATM Cash Withdrawal">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Confirm Withdrawal</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Transfer Tab -->
+      <div class="tab-content" id="tab-transfer">
+        <div class="card" style="max-width: 540px;">
+          <div class="card-header">
+            <h3>🔄 Execute Inter-Account Fund Transfer</h3>
+            <span class="badge badge-transfer">Atomic SQL Txn</span>
+          </div>
+          <div id="transfer-alert"></div>
+          <form id="transfer-form">
+            <div class="form-group">
+              <label for="tf-from">From Account</label>
+              <select id="tf-from" required></select>
+            </div>
+            <div class="form-group">
+              <label for="tf-to">Destination Account Number (16 Digits)</label>
+              <input type="text" id="tf-to" maxlength="16" placeholder="e.g. 2345678901234567" required>
+            </div>
+            <div class="form-group">
+              <label for="tf-amount">Transfer Amount (₹)</label>
+              <input type="number" id="tf-amount" min="1" step="100" required placeholder="5000">
+            </div>
+            <div class="form-group">
+              <label for="tf-type">Transfer Protocol / Type</label>
+              <select id="tf-type">
+                <option value="Internal">Internal (Same Bank - Instant)</option>
+                <option value="IMPS">IMPS (Immediate Payment System)</option>
+                <option value="NEFT">NEFT (National Electronic Transfer)</option>
+                <option value="RTGS">RTGS (Real Time Gross Settlement)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="tf-remarks">Remarks</label>
+              <input type="text" id="tf-remarks" placeholder="Vendor Payment / Salary">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Execute Fund Transfer</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- History Tab -->
+      <div class="tab-content" id="tab-history">
+        <div class="card">
+          <div class="card-header">
+            <h3>📋 Transaction History Log</h3>
+            <select id="hist-account" style="padding: 0.5rem 1rem; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: var(--radius-md); font-weight: 600;"></select>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Type</th>
+                  <th>Reference No.</th>
+                  <th>Amount</th>
+                  <th>Balance After</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="hist-tbody">
+                <tr><td colspan="7" class="text-muted" style="text-align:center;padding:2rem;">Select an account to view transaction history</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/transactions.js"></script>
+</body>
+</html>
